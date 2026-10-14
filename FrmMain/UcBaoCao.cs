@@ -35,8 +35,6 @@ namespace UI.UserControls
         private bool xemThongKe = true;
 
         // Một lớp học phần trong combobox
-        
-    
         public class LopHP
         {
             public string Ma { get; set; } = "";
@@ -48,12 +46,11 @@ namespace UI.UserControls
                 return Ma + " - " + TenMon + " (" + GiangVien + ")";
             }
         }
-    
 
-    // =====================================================================
-    // 1. KHỞI TẠO GIAO DIỆN
-    // =====================================================================
-    public UcBaoCao()
+        // =====================================================================
+        // 1. KHỞI TẠO GIAO DIỆN
+        // =====================================================================
+        public UcBaoCao()
         {
             TaoGiaoDien();
             Load += UcBaoCao_Load;
@@ -76,15 +73,6 @@ namespace UI.UserControls
             BackColor = MauNen;
             Padding = new Padding(24, 16, 24, 20);
             Font = new Font("Segoe UI", 9.5f);
-
-            // Tiêu đề trang
-            var lblTieuDe = new Label();
-            lblTieuDe.Text = "Tổng hợp & Báo cáo";
-            lblTieuDe.Dock = DockStyle.Top;
-            lblTieuDe.Height = 44;
-            lblTieuDe.Font = new Font("Segoe UI", 20f, FontStyle.Bold);
-            lblTieuDe.ForeColor = MauChinh;
-            lblTieuDe.TextAlign = ContentAlignment.MiddleLeft;
 
             // Thẻ trắng bo góc chứa mọi thứ
             var card = new Guna2Panel();
@@ -125,11 +113,10 @@ namespace UI.UserControls
             pnlTren.Controls.Add(cboLopHP);
             pnlTren.Controls.Add(btnThongKe);
             pnlTren.Controls.Add(btnBangDiem);
-            
             pnlTren.Controls.Add(btnTinhDiem);
             pnlTren.Controls.Add(btnXuat);
 
-            // Tiêu đề của báo cáo đang xem
+            // Tiêu đề của báo cáo đang xem (nằm dưới biểu đồ, trên bảng)
             lblTieuDeBaoCao = new Label();
             lblTieuDeBaoCao.Dock = DockStyle.Top;
             lblTieuDeBaoCao.Height = 38;
@@ -137,8 +124,9 @@ namespace UI.UserControls
             lblTieuDeBaoCao.ForeColor = MauChinh;
             lblTieuDeBaoCao.TextAlign = ContentAlignment.MiddleLeft;
             lblTieuDeBaoCao.BackColor = Color.White;
+            lblTieuDeBaoCao.UseMnemonic = false;   // để dấu & không bị nuốt
 
-            // Vùng nội dung: bảng ở giữa, biểu đồ bên phải
+            // Vùng nội dung: biểu đồ ở trên, tiêu đề + bảng ở dưới
             var pnlNoiDung = new Panel();
             pnlNoiDung.Dock = DockStyle.Fill;
             pnlNoiDung.BackColor = Color.White;
@@ -146,16 +134,15 @@ namespace UI.UserControls
             dgv = TaoBang();
             pnlBieuDo = TaoVungBieuDo();
 
-            pnlNoiDung.Controls.Add(dgv);         // Fill: thêm trước
-            pnlNoiDung.Controls.Add(pnlBieuDo);   // Right: thêm sau
+            // Fill thêm trước, rồi các Top: cái nằm trên cùng thêm cuối
+            pnlNoiDung.Controls.Add(dgv);
+            pnlNoiDung.Controls.Add(lblTieuDeBaoCao);
+            pnlNoiDung.Controls.Add(pnlBieuDo);
 
-            // Thứ tự thêm: Fill trước, các Top thêm sau (cái nằm trên cùng thêm cuối)
             card.Controls.Add(pnlNoiDung);
-            card.Controls.Add(lblTieuDeBaoCao);
             card.Controls.Add(pnlTren);
 
             Controls.Add(card);
-            Controls.Add(lblTieuDe);
         }
 
         private Guna2Button TaoNut(string chu, int rong, Color nen, Color mauChu)
@@ -216,29 +203,31 @@ namespace UI.UserControls
             return b;
         }
 
-        // Vùng bên phải gồm 2 biểu đồ xếp chồng: cột (trên), tròn (dưới)
+        // Vùng biểu đồ: 2 biểu đồ nằm ngang, song song trên 1 hàng
         private Panel TaoVungBieuDo()
         {
             var pnl = new Panel();
-            pnl.Dock = DockStyle.Right;
-            pnl.Width = 460;
-            pnl.Padding = new Padding(12, 0, 0, 0);
+            pnl.Dock = DockStyle.Top;
+            pnl.Height = 260;
+            pnl.Padding = new Padding(0, 0, 0, 10);
             pnl.BackColor = Color.White;
             pnl.Visible = false;
 
             var bang = new TableLayoutPanel();
             bang.Dock = DockStyle.Fill;
-            bang.RowCount = 2;
-            bang.ColumnCount = 1;
-            bang.RowStyles.Add(new RowStyle(SizeType.Percent, 50));
-            bang.RowStyles.Add(new RowStyle(SizeType.Percent, 50));
+            bang.RowCount = 1;
+            bang.ColumnCount = 2;
+            bang.BackColor = Color.White;
+            bang.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
+            bang.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
+            bang.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
 
             plotCot = new ScottPlot.WinForms.FormsPlot();
             plotTron = new ScottPlot.WinForms.FormsPlot();
             lblTieuDeTron = new Label();
 
             bang.Controls.Add(TaoTheBieuDo("Thống kê kết quả học tập", plotCot, null), 0, 0);
-            bang.Controls.Add(TaoTheBieuDo("Xếp loại học lực", plotTron, lblTieuDeTron), 0, 1);
+            bang.Controls.Add(TaoTheBieuDo("Xếp loại học lực", plotTron, lblTieuDeTron), 1, 0);
 
             pnl.Controls.Add(bang);
             return pnl;
@@ -254,7 +243,7 @@ namespace UI.UserControls
             the.BorderThickness = 1;
             the.BorderRadius = 10;
             the.Padding = new Padding(12);
-            the.Margin = new Padding(0, 0, 0, 8);
+            the.Margin = new Padding(4, 0, 4, 0);   // khoảng cách giữa 2 thẻ
 
             if (nhan == null) nhan = new Label();
             nhan.Text = tieuDe;
@@ -263,6 +252,7 @@ namespace UI.UserControls
             nhan.Font = new Font("Segoe UI", 10.5f, FontStyle.Bold);
             nhan.ForeColor = MauChu;
             nhan.TextAlign = ContentAlignment.MiddleLeft;
+            nhan.UseMnemonic = false;
 
             bieuDo.Dock = DockStyle.Fill;
             the.Controls.Add(bieuDo);   // Fill thêm trước
@@ -345,7 +335,8 @@ namespace UI.UserControls
         // Xếp loại theo điểm tổng kết (giống FrmNhapDiem)
         private static string XepLoai(decimal diem)
         {
-            if (diem >= 8.5m) return "Giỏi";
+            if (diem >= 8.5m) return "Xuất sắc";
+            if (diem >= 8.0m) return "Giỏi";
             if (diem >= 7m) return "Khá";
             if (diem >= 5m) return "Trung bình";
             return "Yếu";
@@ -426,7 +417,7 @@ namespace UI.UserControls
             if (lop == null) return;
 
             lblTieuDeBaoCao.Text = "BÁO CÁO THỐNG KÊ: " + lop;
-            TaoCot("Chỉ tiêu", "Giá trị", "Tỷ lệ");
+            TaoCot("Nội dung", "Số liệu", "Tỷ lệ");
 
             try
             {
@@ -434,7 +425,7 @@ namespace UI.UserControls
                 int tongSV = 0;     // tổng số sinh viên
                 int coDiem = 0;     // số sinh viên đã có điểm tổng kết
                 int dat = 0;        // số sinh viên đạt (>= 5)
-                int gioi = 0, kha = 0, trungBinh = 0, yeu = 0;
+                int xuatsac = 0, gioi = 0, kha = 0, trungBinh = 0, yeu = 0;
                 decimal tongDiem = 0, diemMax = 0, diemMin = 10;
 
                 string sql = "SELECT diemtongket FROM diem WHERE malophp = @MaLopHP";
@@ -459,7 +450,8 @@ namespace UI.UserControls
                             if (diem >= 5m) dat++;
 
                             string xl = XepLoai(diem);
-                            if (xl == "Giỏi") gioi++;
+                            if (xl == "Xuất sắc") xuatsac++;
+                            else if (xl == "Giỏi") gioi++;
                             else if (xl == "Khá") kha++;
                             else if (xl == "Trung bình") trungBinh++;
                             else yeu++;
@@ -473,8 +465,9 @@ namespace UI.UserControls
                 dgv.Rows.Add("Chưa có điểm", tongSV - coDiem, TyLe(tongSV - coDiem, tongSV));
                 dgv.Rows.Add("Đạt (>= 5.0)", dat, TyLe(dat, coDiem));
                 dgv.Rows.Add("Không đạt (< 5.0)", coDiem - dat, TyLe(coDiem - dat, coDiem));
-                dgv.Rows.Add("Xếp loại Giỏi (>= 8.5)", gioi, TyLe(gioi, coDiem));
-                dgv.Rows.Add("Xếp loại Khá (7.0 - 8.4)", kha, TyLe(kha, coDiem));
+                dgv.Rows.Add("Xếp loại Giỏi (>= 8.5)", xuatsac, TyLe(xuatsac, coDiem));
+                dgv.Rows.Add("Xếp loại Khá (8.0 - 8.5)", gioi, TyLe(gioi, coDiem));
+                dgv.Rows.Add("Xếp loại Khá (7.0 - 8.0)", kha, TyLe(kha, coDiem));
                 dgv.Rows.Add("Xếp loại Trung bình (5.0 - 6.9)", trungBinh, TyLe(trungBinh, coDiem));
                 dgv.Rows.Add("Xếp loại Yếu (< 5.0)", yeu, TyLe(yeu, coDiem));
 
@@ -486,8 +479,8 @@ namespace UI.UserControls
                 }
 
                 // Vẽ biểu đồ từ số liệu xếp loại
-                string[] ten = { "Giỏi", "Khá", "Trung bình", "Yếu" };
-                int[] soLuong = { gioi, kha, trungBinh, yeu };
+                string[] ten = { "Xuất sắc", "Giỏi", "Khá", "Trung bình", "Yếu" };
+                int[] soLuong = { xuatsac, gioi,kha, trungBinh, yeu };
                 pnlBieuDo.Visible = true;
                 VeBieuDo(ten, soLuong);
             }
@@ -541,7 +534,7 @@ namespace UI.UserControls
 
             // ----- Biểu đồ tròn (donut) -----
             plotTron.Plot.Clear();
-            lblTieuDeTron.Text = "Xếp loại học lực (Tổng: " + tong + " SV)";
+            lblTieuDeTron.Text = "Xếp loại học lực";
 
             var lat = new List<ScottPlot.PieSlice>();
             for (int i = 0; i < ten.Length; i++)
@@ -575,7 +568,6 @@ namespace UI.UserControls
 
         // =====================================================================
         // 5. TÍNH ĐIỂM, XẾP LOẠI - chỉ một câu SQL
-        //    Tổng kết = 10% chuyên cần + 30% giữa kỳ + 60% cuối kỳ (làm tròn 2 số)
         //    Chỉ tính cho sinh viên đủ 3 cột điểm và điểm chưa bị khóa
         // =====================================================================
         private void BtnTinhDiem_Click(object sender, EventArgs e)
@@ -591,7 +583,7 @@ namespace UI.UserControls
                            SET diemtongket = ROUND(diemcc * 0.2 + diemgk * 0.3 + diemck * 0.5, 2),
                                xeploai = CASE
                                    WHEN ROUND(diemcc * 0.2 + diemgk * 0.3 + diemck * 0.5, 2) >= 8.5 THEN N'Xuất Sắc'
-                                   WHEN ROUND(diemcc * 0.2 + diemgk * 0.3 + diemck * 0.5, 2) >= 8.5 THEN N'Giỏi'
+                                   WHEN ROUND(diemcc * 0.2 + diemgk * 0.3 + diemck * 0.5, 2) >= 8.0 THEN N'Giỏi'
                                    WHEN ROUND(diemcc * 0.2 + diemgk * 0.3 + diemck * 0.5, 2) >= 7   THEN N'Khá'
                                    WHEN ROUND(diemcc * 0.2 + diemgk * 0.3 + diemck * 0.5, 2) >= 5   THEN N'Trung bình'
                                    ELSE N'Yếu'

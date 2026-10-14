@@ -90,7 +90,7 @@ namespace UI
             this.pnlMenu.Controls.Add(this.btnLopHocPhan);
             this.pnlMenu.Controls.Add(this.btnTongQuan);
 
-            InitMenuButton(this.btnTongQuan, "btnTongQuan", "Tổng quan", "\uE80F");
+            InitMenuButton(this.btnTongQuan, "btnTongQuan", "Trang chủ", "\uE80F");
             InitMenuButton(this.btnLopHocPhan, "btnLopHocPhan", "Quản lý lớp học phần", "\uE8F1");
             InitMenuButton(this.btnQuanLyDiem, "btnQuanLyDiem", "Quản lý điểm", "\uE8A5");
             InitMenuButton(this.btnBaoCao, "btnBaoCao", "Tổng hợp & báo cáo", "\uE9D9");

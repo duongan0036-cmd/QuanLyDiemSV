@@ -10,7 +10,6 @@ using Database;
 
 namespace UI.UserControls
 {
-   
     public class UCQuanLyDiemSinhVien : UserControl
     {
         // ====== CẤU HÌNH ======
@@ -67,6 +66,13 @@ ORDER BY d.malophp, d.masv";
             TaiDuLieu();
         }
 
+        // Hệ số phóng theo DPI màn hình (100% = 1.0, 125% = 1.25, ...)
+        private static float HeSoDpi()
+        {
+            using (var g = Graphics.FromHwnd(IntPtr.Zero))
+                return g.DpiX / 96f;
+        }
+
         // =====================================================================
         //  DỰNG GIAO DIỆN
         // =====================================================================
@@ -75,20 +81,8 @@ ORDER BY d.malophp, d.masv";
             SuspendLayout();
 
             BackColor = MauNen;
-            Padding = new Padding(24, 20, 24, 24);
+            Padding = new Padding(24, 16, 24, 24);
             Font = new Font("Segoe UI", 9.5f);
-
-            // ---- Tiêu đề ----
-            var lblTieuDe = new Label
-            {
-                Text = "Quản lý điểm",
-                Dock = DockStyle.Top,
-                Height = 52,
-                Font = new Font("Segoe UI", 22f, FontStyle.Bold),
-                ForeColor = MauChinh,
-                TextAlign = ContentAlignment.MiddleLeft,
-                BackColor = Color.Transparent
-            };
 
             // ---- Thẻ trắng bo góc ----
             var card = new Guna2Panel
@@ -108,6 +102,8 @@ ORDER BY d.malophp, d.masv";
                 BackColor = Color.White
             };
 
+            int iconTim = (int)Math.Round(16 * HeSoDpi());
+
             txtTimKiem = new Guna2TextBox
             {
                 Dock = DockStyle.Fill,
@@ -117,8 +113,8 @@ ORDER BY d.malophp, d.masv";
                 FillColor = Color.White,
                 ForeColor = MauChu,
                 Font = new Font("Segoe UI", 9.5f),
-                IconLeft = TaoIcon("\uE721", Color.FromArgb(130, 100, 150), 16),
-                IconLeftSize = new Size(16, 16)
+                IconLeft = TaoIcon("\uE721", Color.FromArgb(130, 100, 150), iconTim),
+                IconLeftSize = new Size(iconTim, iconTim)
             };
             txtTimKiem.KeyDown += (s, e) =>
             {
@@ -129,10 +125,14 @@ ORDER BY d.malophp, d.masv";
 
             btnTimKiem = TaoNut("Tìm kiếm", "\uE721", true);
             btnTimKiem.Dock = DockStyle.Right;
-            btnTimKiem.Width = 116;
+            btnTimKiem.Width = 130;
             btnTimKiem.Margin = Padding.Empty;
             btnTimKiem.Click += (s, e) => TimKiem();
-
+            // Thêm các thuộc tính này để gom icon và chữ lại gần nhau:
+            btnTimKiem.TextAlign = HorizontalAlignment.Center;
+            btnTimKiem.ImageAlign = HorizontalAlignment.Center;
+            btnTimKiem.ImageOffset = new Point(-2, 0); // Kéo icon dịch sang phải một chút
+            btnTimKiem.TextOffset = new Point(2, 0);  // Kéo chữ dịch sang trái một chút
             // Thứ tự Add: Fill trước, các control Right sau
             pnlTim.Controls.Add(txtTimKiem);
             pnlTim.Controls.Add(spacer);
@@ -162,9 +162,13 @@ ORDER BY d.malophp, d.masv";
             btnSuaDiem = TaoNut("Sửa điểm", "\uE70F", false);
             btnKhoaDiem = TaoNut("Khóa điểm", "\uE72E", false);
             btnLamMoi = TaoNut("Làm mới", "\uE72C", false);
-
-       
-
+            foreach (var btn in new[] { btnNhapDiem, btnSuaDiem, btnKhoaDiem, btnLamMoi })
+            {
+                btn.TextAlign = HorizontalAlignment.Center;
+                btn.ImageAlign = HorizontalAlignment.Center;
+                btn.TextOffset = new Point(2, 0); // Điều chỉnh chữ lại gần icon
+                btn.ImageOffset = new Point(-2, 0);
+            }
             btnSuaDiem.Click += btnSuaDiem_Click;
             btnKhoaDiem.Click += btnKhoaDiem_Click;
             btnLamMoi.Click += btnLamMoi_Click;
@@ -202,7 +206,6 @@ ORDER BY d.malophp, d.masv";
             card.Controls.Add(pnlTim);
 
             Controls.Add(card);
-            Controls.Add(lblTieuDe);
 
             ResumeLayout(false);
         }
@@ -287,27 +290,37 @@ ORDER BY d.malophp, d.masv";
             return c;
         }
 
+        /// <summary>
+        /// Nút có icon bên trái. Cả icon và chữ đều canh TRÁI và cách nhau một khoảng cố định,
+        /// các độ lệch được nhân theo DPI nên chữ không bao giờ dính vào icon dù màn hình
+        /// scale 100%, 125% hay 150%.
+        /// </summary>
         private Guna2Button TaoNut(string text, string glyph, bool chinh)
         {
             Color nen = chinh ? MauChinh : MauNhat;
             Color chu = chinh ? Color.White : MauChinh;
 
+            float k = HeSoDpi();
+            int iconSize = (int)Math.Round(16 * k);   // kích thước icon
+            int leTrai = (int)Math.Round(16 * k);     // từ mép trái nút đến icon
+            int khoang = (int)Math.Round(10 * k);     // từ icon đến chữ
+
             var b = new Guna2Button
             {
                 Text = text,
-                Size = new Size(124, 36),
+                Size = new Size(136, 36),
                 BorderRadius = 8,
                 FillColor = nen,
                 ForeColor = chu,
                 Font = new Font("Segoe UI Semibold", 9.5f),
                 Cursor = Cursors.Hand,
                 Margin = new Padding(0, 0, 10, 0),
-                Image = TaoIcon(glyph, chu, 16),
-                ImageSize = new Size(16, 16),
+                Image = TaoIcon(glyph, chu, iconSize),
+                ImageSize = new Size(iconSize, iconSize),
                 ImageAlign = HorizontalAlignment.Left,
-                ImageOffset = new Point(14, 0),
-                TextAlign = HorizontalAlignment.Center,
-                TextOffset = new Point(8, 0)
+                ImageOffset = new Point(leTrai, 0),
+                TextAlign = HorizontalAlignment.Left,
+                TextOffset = new Point(leTrai + iconSize + khoang, 0)
             };
             b.HoverState.FillColor = chinh ? Color.FromArgb(120, 40, 140) : Color.FromArgb(232, 210, 244);
             return b;
@@ -427,8 +440,9 @@ ORDER BY d.malophp, d.masv";
                              .Replace("[", "[[]")
                              .Replace("%", "[%]")
                              .Replace("*", "[*]");
+                // Tên cột phải trùng alias trong câu SQL: MaSV, HoTen, MaLopHP, MonHoc
                 _dt.DefaultView.RowFilter = string.Format(
-                    "masv LIKE '%{0}%' OR HoTen LIKE '%{0}%' OR malophp LIKE '%{0}%' OR tenmon LIKE '%{0}%'", s);
+                    "MaSV LIKE '%{0}%' OR HoTen LIKE '%{0}%' OR MaLopHP LIKE '%{0}%' OR MonHoc LIKE '%{0}%'", s);
             }
             lblTong.Text = "Tổng số: " + _dt.DefaultView.Count;
         }
@@ -457,7 +471,7 @@ ORDER BY d.malophp, d.masv";
         // =====================================================================
         //  SỰ KIỆN NÚT
         // =====================================================================
-        /// <summary>Lấy MaSV + MaLopHP của dòng đang chọn; null nếu chưa chọn.</summary>
+        /// <summary>Lấy MaSV + MaLopHP của dòng đang chọn; false nếu chưa chọn.</summary>
         private bool LayDongChon(out string maSV, out string maLopHP)
         {
             maSV = maLopHP = null;
@@ -470,18 +484,6 @@ ORDER BY d.malophp, d.masv";
             maSV = Convert.ToString(dgv.CurrentRow.Cells["colMaSV"].Value);
             maLopHP = Convert.ToString(dgv.CurrentRow.Cells["colMaLopHP"].Value);
             return true;
-        }
-
-        private void InitializeComponent()
-        {
-            this.SuspendLayout();
-            // 
-            // UCQuanLyDiemSinhVien
-            // 
-            this.Name = "UCQuanLyDiemSinhVien";
-            this.Size = new System.Drawing.Size(390, 150);
-            this.ResumeLayout(false);
-
         }
 
         private void btnNhapDiem_Click(object sender, EventArgs e)
@@ -527,59 +529,26 @@ ORDER BY d.malophp, d.masv";
             }
         }
 
+        // Mở form chọn sinh viên để khóa / mở khóa điểm
         private void btnKhoaDiem_Click(object sender, EventArgs e)
         {
-            string maSV, maLop;
-            if (!LayDongChon(out maSV, out maLop)) return;
-
-            string trangThai = Convert.ToString(dgv.CurrentRow.Cells["colTrangThai"].Value);
-            bool daKhoa = (trangThai == "Đã khóa");
-            string hanhDong = daKhoa ? "mở khóa" : "khóa";
-
-            var rs = MessageBox.Show(
-                string.Format("Bạn có chắc chắn muốn {0} điểm cho sinh viên {1} (Lớp {2})?", hanhDong, maSV, maLop),
-                string.Format("Xác nhận {0} điểm", hanhDong),
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
-
-            if (rs != DialogResult.Yes) return;
-
-            if (DungDuLieuMau)
-            {
-                dgv.CurrentRow.Cells["colTrangThai"].Value = daKhoa ? "Chưa khóa" : "Đã khóa";
-                dgv.Invalidate();
-                return;
-            }
-
             try
             {
-                using (var conn = new SqlConnection(ConnStr))
-                using (var cmd = new SqlCommand(
-                    @"IF EXISTS (SELECT 1 FROM diem WHERE masv = @MaSV AND malophp = @MaLopHP)
-                      BEGIN
-                          UPDATE diem SET dakhoa = @DaKhoa WHERE masv = @MaSV AND malophp = @MaLopHP;
-                      END
-                      ELSE
-                      BEGIN
-                          INSERT INTO diem (masv, malophp, dakhoa) VALUES (@MaSV, @MaLopHP, @DaKhoa);
-                      END", conn))
+                using (var frm = new FrmKhoaDiem())
                 {
-                    cmd.Parameters.Add("@DaKhoa", SqlDbType.Bit).Value = !daKhoa;
-                    cmd.Parameters.Add("@MaSV", SqlDbType.VarChar, 100).Value = maSV;
-                    cmd.Parameters.Add("@MaLopHP", SqlDbType.VarChar, 100).Value = maLop;
-
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-
-                    MessageBox.Show(string.Format("Đã {0} điểm thành công!", hanhDong), "Thông báo",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    TaiDuLieu();
+                    if (frm.ShowDialog(FindForm()) == DialogResult.OK)
+                    {
+                        TaiDuLieu();
+                    }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi khi cập nhật trạng thái khóa: " + ex.Message, "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    ex.ToString(),
+                    "Lỗi mở form khóa điểm",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
 

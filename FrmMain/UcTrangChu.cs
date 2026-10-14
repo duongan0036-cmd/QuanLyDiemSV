@@ -32,7 +32,7 @@ namespace UI.UserControls
             Font = new Font("Segoe UI", 9.5f);
 
             // Header
-            var lblTitle = new Label
+            /*r lblTitle = new Label
             {
                 Text = "Tổng quan hệ thống",
                 Dock = DockStyle.Top,
@@ -40,13 +40,13 @@ namespace UI.UserControls
                 Font = new Font("Segoe UI", 22f, FontStyle.Bold),
                 ForeColor = MauChinh,
                 TextAlign = ContentAlignment.MiddleLeft
-            };
+            };*/
 
             var lblSubtitle = new Label
             {
                 Text = "Chào mừng bạn đến với hệ thống Quản lý điểm sinh viên",
                 Dock = DockStyle.Top,
-                Height = 28,
+                Height = 35,
                 Font = new Font("Segoe UI", 10.5f),
                 ForeColor = Color.FromArgb(120, 100, 130),
                 TextAlign = ContentAlignment.MiddleLeft
@@ -156,7 +156,7 @@ namespace UI.UserControls
             Controls.Add(cardGrid);
             Controls.Add(pnlCards);
             Controls.Add(lblSubtitle);
-            Controls.Add(lblTitle);
+           //ontrols.Add(lblTitle);
 
             ResumeLayout(false);
         }

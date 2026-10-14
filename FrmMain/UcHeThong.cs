@@ -27,6 +27,31 @@ namespace UI.UserControls
         {
             XayDungGiaoDien();
         }
+        private static Label TaoNhan(string text)
+        {
+            return new Label
+            {
+                Text = text,
+                AutoSize = true,
+                ForeColor = MauChu,
+                BackColor = Color.White,
+                Margin = new Padding(0, 12, 0, 4)
+            };
+        }
+
+        private static Guna2TextBox TaoOMatKhau()
+        {
+            return new Guna2TextBox
+            {
+                Height = 40,
+                Anchor = AnchorStyles.Left | AnchorStyles.Right,
+                BorderRadius = 8,
+                BorderColor = Color.FromArgb(225, 205, 235),
+                PasswordChar = '●',
+                Font = new Font("Segoe UI", 9.5f),
+                Margin = new Padding(0)
+            };
+        }
 
         private void XayDungGiaoDien()
         {
@@ -35,22 +60,6 @@ namespace UI.UserControls
             Padding = new Padding(24, 16, 24, 20);
             Font = new Font("Segoe UI", 9.5f);
 
-            var lblTieuDe = new Label
-            {
-                Text = "Quản trị hệ thống",
-                Dock = DockStyle.Top,
-                Height = 44,
-                Font = new Font("Segoe UI", 20f, FontStyle.Bold),
-                ForeColor = MauChinh,
-                TextAlign = ContentAlignment.MiddleLeft
-            };
-
-            var user = PhienLamViec.NguoiDung;
-            string tenDangNhap = user != null ? user.TenDangNhap : "admin";
-            string hoTen = user != null ? user.HoTen : "Quản trị viên";
-            string vaiTro = user != null ? user.VaiTro : "Admin";
-
-            // Main layout panel
             var flow = new FlowLayoutPanel
             {
                 Dock = DockStyle.Fill,
@@ -60,98 +69,48 @@ namespace UI.UserControls
                 Padding = new Padding(0, 8, 0, 0)
             };
 
-            // ====== CARD 1: THÔNG TIN TÀI KHOẢN ======
-            var cardInfo = new Guna2Panel
-            {
-                Width = 650,
-                Height = 160,
-                FillColor = Color.White,
-                BorderRadius = 14,
-                Padding = new Padding(20),
-                Margin = new Padding(0, 0, 0, 16)
-            };
-
-            var lblHeaderInfo = new Label
-            {
-                Text = "THÔNG TIN TÀI KHOẢN HIỆN TẠI",
-                Dock = DockStyle.Top,
-                Height = 28,
-                Font = new Font("Segoe UI Semibold", 11.5f),
-                ForeColor = MauChinh
-            };
-
-            var lblChiTiet = new Label
-            {
-                Dock = DockStyle.Fill,
-                Text = string.Format("• Tên đăng nhập: {0}\n• Họ và tên: {1}\n• Vai trò quyền hạn: {2}\n• Trạng thái: Đang hoạt động", tenDangNhap, hoTen, vaiTro),
-                Font = new Font("Segoe UI", 10f),
-                ForeColor = MauChu,
-                TextAlign = ContentAlignment.MiddleLeft
-            };
-
-            cardInfo.Controls.Add(lblChiTiet);
-            cardInfo.Controls.Add(lblHeaderInfo);
-
-            // ====== CARD 2: ĐỔI MẬT KHẨU ======
+            // ====== CARD: ĐỔI MẬT KHẨU ======
             var cardDoiMk = new Guna2Panel
             {
-                Width = 650,
-                Height = 350,
+                Width = 520,
+                Height = 470,
                 FillColor = Color.White,
                 BorderRadius = 14,
-                Padding = new Padding(20),
+                Padding = new Padding(28, 24, 28, 24),
                 Margin = new Padding(0, 0, 0, 16)
             };
+
+            var tbl = new TableLayoutPanel
+            {
+                ColumnCount = 1,
+                Dock = DockStyle.Fill,
+                BackColor = Color.White
+            };
+            tbl.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100f));
+            tbl.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100f));
 
             var lblHeaderDoiMk = new Label
             {
                 Text = "ĐỔI MẬT KHẨU ĐĂNG NHẬP",
-                Location = new Point(20, 16),
-                Size = new Size(610, 26),
-                Font = new Font("Segoe UI Semibold", 11.5f),
-                ForeColor = MauChinh
+                AutoSize = true,
+                Font = new Font("Segoe UI Semibold", 12f),
+                ForeColor = MauChinh,
+                BackColor = Color.White,
+                Margin = new Padding(0, 0, 0, 6)
             };
 
-            var lbl1 = new Label { Text = "Mật khẩu hiện tại:", Location = new Point(20, 52), Size = new Size(180, 22), ForeColor = MauChu };
-            txtMkCu = new Guna2TextBox
-            {
-                Location = new Point(20, 76),
-                Size = new Size(380, 38),
-                BorderRadius = 8,
-                BorderColor = Color.FromArgb(225, 205, 235),
-                PasswordChar = '●',
-                Font = new Font("Segoe UI", 9.5f)
-            };
-
-            var lbl2 = new Label { Text = "Mật khẩu mới (ít nhất 6 ký tự):", Location = new Point(20, 122), Size = new Size(240, 22), ForeColor = MauChu };
-            txtMkMoi = new Guna2TextBox
-            {
-                Location = new Point(20, 146),
-                Size = new Size(380, 38),
-                BorderRadius = 8,
-                BorderColor = Color.FromArgb(225, 205, 235),
-                PasswordChar = '●',
-                Font = new Font("Segoe UI", 9.5f)
-            };
-
-            var lbl3 = new Label { Text = "Xác nhận mật khẩu mới:", Location = new Point(20, 192), Size = new Size(200, 22), ForeColor = MauChu };
-            txtMkXacNhan = new Guna2TextBox
-            {
-                Location = new Point(20, 216),
-                Size = new Size(380, 38),
-                BorderRadius = 8,
-                BorderColor = Color.FromArgb(225, 205, 235),
-                PasswordChar = '●',
-                Font = new Font("Segoe UI", 9.5f)
-            };
+            txtMkCu = TaoOMatKhau();
+            txtMkMoi = TaoOMatKhau();
+            txtMkXacNhan = TaoOMatKhau();
 
             chkHienMk = new CheckBox
             {
                 Text = "Hiển thị mật khẩu",
-                Location = new Point(415, 84),
                 AutoSize = true,
                 ForeColor = Color.FromArgb(120, 100, 130),
-                Font = new Font("Segoe UI", 9f)
+                BackColor = Color.White,
+                Font = new Font("Segoe UI", 9f),
+                Margin = new Padding(0, 12, 0, 0)
             };
             chkHienMk.CheckedChanged += (s, e) =>
             {
@@ -163,52 +122,56 @@ namespace UI.UserControls
 
             lblThongBao = new Label
             {
-                Location = new Point(20, 260),
-                Size = new Size(610, 22),
+                AutoSize = true,
+                MaximumSize = new Size(440, 0),
                 ForeColor = Color.FromArgb(200, 40, 50),
-                Font = new Font("Segoe UI", 9f)
+                BackColor = Color.White,
+                Font = new Font("Segoe UI", 9f),
+                Margin = new Padding(0, 10, 0, 0)
             };
 
             btnDoiMatKhau = new Guna2Button
             {
                 Text = "Cập nhật mật khẩu",
-                Location = new Point(20, 288),
-                Size = new Size(180, 40),
+                Size = new Size(190, 42),
                 BorderRadius = 8,
                 FillColor = MauChinh,
                 ForeColor = Color.White,
                 Font = new Font("Segoe UI Semibold", 9.5f),
-                Cursor = Cursors.Hand
+                Cursor = Cursors.Hand,
+                Margin = new Padding(0, 14, 0, 0)
             };
             btnDoiMatKhau.Click += BtnDoiMatKhau_Click;
 
-            cardDoiMk.Controls.Add(lblHeaderDoiMk);
-            cardDoiMk.Controls.Add(lbl1);
-            cardDoiMk.Controls.Add(txtMkCu);
-            cardDoiMk.Controls.Add(lbl2);
-            cardDoiMk.Controls.Add(txtMkMoi);
-            cardDoiMk.Controls.Add(lbl3);
-            cardDoiMk.Controls.Add(txtMkXacNhan);
-            cardDoiMk.Controls.Add(chkHienMk);
-            cardDoiMk.Controls.Add(lblThongBao);
-            cardDoiMk.Controls.Add(btnDoiMatKhau);
+            tbl.Controls.Add(lblHeaderDoiMk);
+            tbl.Controls.Add(TaoNhan("Mật khẩu hiện tại"));
+            tbl.Controls.Add(txtMkCu);
+            tbl.Controls.Add(TaoNhan("Mật khẩu mới (ít nhất 6 ký tự)"));
+            tbl.Controls.Add(txtMkMoi);
+            tbl.Controls.Add(TaoNhan("Xác nhận mật khẩu mới"));
+            tbl.Controls.Add(txtMkXacNhan);
+            tbl.Controls.Add(chkHienMk);
+            tbl.Controls.Add(lblThongBao);
+            tbl.Controls.Add(btnDoiMatKhau);
 
-            // ====== CARD 3: ĐĂNG XUẤT ======
+            cardDoiMk.Controls.Add(tbl);
+
+            // ====== CARD: ĐĂNG XUẤT ======
             var cardLogout = new Guna2Panel
             {
-                Width = 650,
+                Width = 520,
                 Height = 100,
                 FillColor = Color.White,
                 BorderRadius = 14,
-                Padding = new Padding(20),
+                Padding = new Padding(28),
                 Margin = new Padding(0, 0, 0, 16)
             };
 
             btnDangXuat = new Guna2Button
             {
                 Text = "Đăng xuất khỏi hệ thống",
-                Location = new Point(20, 28),
-                Size = new Size(220, 42),
+                Location = new Point(28, 28),
+                Size = new Size(230, 42),
                 BorderRadius = 8,
                 FillColor = Color.FromArgb(192, 57, 43),
                 ForeColor = Color.White,
@@ -222,28 +185,28 @@ namespace UI.UserControls
                 {
                     var btnDx = main.Controls.Find("btnDangXuat", true);
                     if (btnDx.Length > 0 && btnDx[0] is Button b)
-                    {
                         b.PerformClick();
-                    }
                     else
-                    {
                         f.Close();
-                    }
                 }
             };
-
             cardLogout.Controls.Add(btnDangXuat);
 
-            flow.Controls.Add(cardInfo);
             flow.Controls.Add(cardDoiMk);
             flow.Controls.Add(cardLogout);
 
+            // Căn giữa các card theo chiều ngang
+            flow.Resize += (s, e) =>
+            {
+                int left = Math.Max(0, (flow.ClientSize.Width - cardDoiMk.Width) / 2);
+                flow.Padding = new Padding(left, 8, 0, 0);
+            };
+
             Controls.Add(flow);
-            Controls.Add(lblTieuDe);
 
             ResumeLayout(false);
         }
-
+    
         private void BtnDoiMatKhau_Click(object sender, EventArgs e)
         {
             string cu = txtMkCu.Text ?? "";

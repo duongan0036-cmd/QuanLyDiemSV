@@ -2,7 +2,6 @@ using System;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
 using System.Windows.Forms;
 using Database;
 
@@ -15,19 +14,8 @@ namespace UI.UserControls
 
         public UcLopHocPhan()
         {
+            // Giao diện (thẻ trắng, nút, kiểu bảng, cột) đã được dựng sẵn trong UcLopHocPhan.Designer.cs
             InitializeComponent();
-
-            // Cấu hình giao diện bảng
-            TaoBang(dglhp);
-            TaoBang(dgsv);
-
-            // Cấu hình nút
-            TaoNut(btntim, "#AB3385", Color.White);
-            TaoNut(btntimsv, "#AB3385", Color.White);
-            TaoNut(btnlammoi, "#F7EDF4", ColorTranslator.FromHtml("#4D123F"));
-
-            btnlammoi.FlatAppearance.BorderSize = 1;
-            btnlammoi.FlatAppearance.BorderColor = ColorTranslator.FromHtml("#AB3385");
 
             // Gắn sự kiện
             btntim.Click += btntim_click;
@@ -35,58 +23,27 @@ namespace UI.UserControls
             btntimsv.Click += btntimsv_click;
             dglhp.SelectionChanged += dglhp_chon;
 
+            // Nhấn Enter trong ô tìm kiếm cũng tìm luôn
+            txttim.KeyDown += (s, e) =>
+            {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    e.SuppressKeyPress = true;
+                    tailhp();
+                }
+            };
+            txttimsv.KeyDown += (s, e) =>
+            {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    e.SuppressKeyPress = true;
+                    taisv();
+                }
+            };
+
             // Tải dữ liệu ban đầu (không chạy trong chế độ Designer)
             if (!DesignMode && LicenseManager.UsageMode != LicenseUsageMode.Designtime)
                 tailhp();
-        }
-
-        // ================== GIAO DIỆN ==================
-
-        // Giao diện bảng: tiêu đề tím, dòng xen kẽ, bỏ viền thừa
-        private void TaoBang(DataGridView g)
-        {
-            g.BackgroundColor = Color.White;
-            g.BorderStyle = BorderStyle.None;
-            g.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            g.GridColor = Color.FromArgb(235, 220, 232);
-
-            g.AllowUserToAddRows = false;
-            g.AllowUserToDeleteRows = false;
-            g.AllowUserToResizeRows = false;
-            g.ReadOnly = true;
-            g.MultiSelect = false;
-            g.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            g.RowHeadersVisible = false;
-            g.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-            g.EnableHeadersVisualStyles = false;
-            g.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            g.ColumnHeadersHeight = 42;
-            g.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            g.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(97, 24, 110);
-            g.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            g.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10f, FontStyle.Bold);
-            g.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            g.ColumnHeadersDefaultCellStyle.SelectionBackColor = Color.FromArgb(97, 24, 110);
-
-            g.RowTemplate.Height = 38;
-            g.DefaultCellStyle.Font = new Font("Segoe UI", 10f);
-            g.DefaultCellStyle.ForeColor = Color.FromArgb(60, 20, 65);
-            g.DefaultCellStyle.BackColor = Color.White;
-            g.DefaultCellStyle.SelectionBackColor = Color.FromArgb(232, 215, 245);
-            g.DefaultCellStyle.SelectionForeColor = Color.FromArgb(60, 20, 65);
-            g.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(252, 246, 251);
-        }
-
-        private void TaoNut(Button b, string mauNen, Color mauChu)
-        {
-            b.FlatStyle = FlatStyle.Flat;
-            b.FlatAppearance.BorderSize = 0;
-            b.BackColor = ColorTranslator.FromHtml(mauNen);
-            b.ForeColor = mauChu;
-            b.Font = new Font("Segoe UI", 10f, FontStyle.Bold);
-            b.Cursor = Cursors.Hand;
-            b.UseVisualStyleBackColor = false;
         }
 
         // ================== TRUY VẤN DỮ LIỆU ==================

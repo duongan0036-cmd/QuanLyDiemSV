@@ -379,10 +379,11 @@ ORDER BY lhp.malophp", conn))
                 return;
             }
 
-            decimal tong = Math.Round(cc * 0.1m + gk * 0.3m + ck * 0.6m, 2);
-            string xepLoai = tong >= 8.5m ? "Giỏi" :
-                             tong >= 7m ? "Khá" :
-                             tong >= 5m ? "Trung bình" : "Yếu";
+            decimal tong = Math.Round(cc * 0.2m + gk * 0.3m + ck * 0.5m, 2);
+            string xepLoai = tong >= 8.5m ? "Xuất sắc" :
+                             tong >= 8.0m ? "Giỏi" :
+                             tong >= 7.0m ? "Khá" :
+                             tong >= 5.0m ? "Trung bình" : "Yếu";
 
             string maSV = cboMaSV.SelectedValue?.ToString() ?? "";
             string maLopHP = cboLopHP.SelectedValue?.ToString() ?? "";
