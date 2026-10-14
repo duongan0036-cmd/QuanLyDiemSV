@@ -33,8 +33,10 @@ namespace UI
             this.pnlNoiDung = new Panel();
             this.pnlHeader = new Panel();
             this.lblTieuDe = new Label();
-            this.lblXinChao = new Label();
+            this.btnXinChao = new Button();
             this.picAvatar = new PictureBox();
+            this.pnlUser = new Panel();
+            this.pnlAvatar = new Panel();
 
             var sidebarColor = Color.FromArgb(74, 12, 82);
             var pageColor = Color.FromArgb(252, 246, 251);
@@ -119,9 +121,8 @@ namespace UI
             this.pnlHeader.BackColor = Color.FromArgb(250, 240, 248);
             this.pnlHeader.Dock = DockStyle.Top;
             this.pnlHeader.Height = 86;
-            this.pnlHeader.Controls.Add(this.picAvatar);
-            this.pnlHeader.Controls.Add(this.lblXinChao);
             this.pnlHeader.Controls.Add(this.lblTieuDe);
+            this.pnlHeader.Controls.Add(this.pnlUser);   // thêm sau cùng -> dock Right trước
 
             this.lblTieuDe.AutoSize = true;
             this.lblTieuDe.Font = new Font("Segoe UI", 22f, FontStyle.Bold);
@@ -129,20 +130,40 @@ namespace UI
             this.lblTieuDe.Location = new Point(28, 18);
             this.lblTieuDe.Text = "Tổng quan";
 
-            this.lblXinChao.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            this.lblXinChao.AutoSize = false;
-            this.lblXinChao.Font = new Font("Segoe UI", 11f);
-            this.lblXinChao.ForeColor = Color.FromArgb(90, 20, 95);
-            this.lblXinChao.Size = new Size(320, 30);        
-            this.lblXinChao.Location = new Point(1020-320-80,28);
-            this.lblXinChao.TextAlign = ContentAlignment.MiddleRight;
-            this.lblXinChao.Text = "Xin chào, Admin";
+            // ===== pnlUser (khu vực bên phải header) =====
+            this.pnlUser.BackColor = Color.FromArgb(250, 240, 248);
+            this.pnlUser.Dock = DockStyle.Right;
+            this.pnlUser.Width = 320;
+            this.pnlUser.Padding = new Padding(0, 22, 0, 22);
+            this.pnlUser.Controls.Add(this.btnXinChao);   // Fill (thêm trước)
+            this.pnlUser.Controls.Add(this.pnlAvatar);    // Right (thêm sau)
 
-            this.picAvatar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            this.picAvatar.Size = new Size(46, 46);         
-            this.picAvatar.Location = new Point(1020-46-24, 20);
+            // ===== pnlAvatar =====
+            this.pnlAvatar.BackColor = Color.FromArgb(250, 240, 248);
+            this.pnlAvatar.Dock = DockStyle.Right;
+            this.pnlAvatar.Width = 76;
+            this.pnlAvatar.Padding = new Padding(6, 0, 24, 0);
+            this.pnlAvatar.Controls.Add(this.picAvatar);
+
+            this.picAvatar.Dock = DockStyle.Fill;
+            this.picAvatar.BackColor = Color.FromArgb(250, 240, 248);
             this.picAvatar.Paint += new PaintEventHandler(this.picAvatar_Paint);
 
+            // ===== btnXinChao =====
+            this.btnXinChao.Dock = DockStyle.Fill;
+            this.btnXinChao.FlatStyle = FlatStyle.Flat;
+            this.btnXinChao.FlatAppearance.BorderSize = 0;
+            this.btnXinChao.FlatAppearance.MouseOverBackColor = Color.FromArgb(240, 215, 236);
+            this.btnXinChao.FlatAppearance.MouseDownBackColor = Color.FromArgb(230, 195, 225);
+            this.btnXinChao.BackColor = Color.FromArgb(250, 240, 248);
+            this.btnXinChao.UseVisualStyleBackColor = false;
+            this.btnXinChao.Cursor = Cursors.Hand;
+            this.btnXinChao.Font = new Font("Segoe UI", 11f);
+            this.btnXinChao.ForeColor = Color.FromArgb(90, 20, 95);
+            this.btnXinChao.TabStop = false;
+            this.btnXinChao.TextAlign = ContentAlignment.MiddleRight;
+            this.btnXinChao.Text = "Xin chào, Admin";
+            this.btnXinChao.Click += new System.EventHandler(this.btnXinChao_Click);
             // ===== pnlNoiDung =====
             this.pnlNoiDung.BackColor = pageColor;
             this.pnlNoiDung.Dock = DockStyle.Fill;
@@ -197,8 +218,10 @@ namespace UI
         private Panel pnlMain;
         private Panel pnlHeader;
         private Label lblTieuDe;
-        private Label lblXinChao;
+        private Button btnXinChao;
         private PictureBox picAvatar;
         private Panel pnlNoiDung;
+        private Panel pnlUser;
+        private Panel pnlAvatar;
     }
 }

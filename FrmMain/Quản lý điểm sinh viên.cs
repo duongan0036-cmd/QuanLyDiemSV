@@ -428,7 +428,7 @@ ORDER BY d.malophp, d.masv";
                              .Replace("%", "[%]")
                              .Replace("*", "[*]");
                 _dt.DefaultView.RowFilter = string.Format(
-                    "MaSV LIKE '%{0}%' OR HoTen LIKE '%{0}%' OR MaLopHP LIKE '%{0}%' OR MonHoc LIKE '%{0}%'", s);
+                    "masv LIKE '%{0}%' OR HoTen LIKE '%{0}%' OR malophp LIKE '%{0}%' OR tenmon LIKE '%{0}%'", s);
             }
             lblTong.Text = "Tổng số: " + _dt.DefaultView.Count;
         }
@@ -555,13 +555,13 @@ ORDER BY d.malophp, d.masv";
             {
                 using (var conn = new SqlConnection(ConnStr))
                 using (var cmd = new SqlCommand(
-                    @"IF EXISTS (SELECT 1 FROM Diem WHERE MaSV = @MaSV AND MaLopHP = @MaLopHP)
+                    @"IF EXISTS (SELECT 1 FROM diem WHERE masv = @MaSV AND malophp = @MaLopHP)
                       BEGIN
-                          UPDATE Diem SET DaKhoa = @DaKhoa WHERE MaSV = @MaSV AND MaLopHP = @MaLopHP;
+                          UPDATE diem SET dakhoa = @DaKhoa WHERE masv = @MaSV AND malophp = @MaLopHP;
                       END
                       ELSE
                       BEGIN
-                          INSERT INTO Diem (MaSV, MaLopHP, DaKhoa) VALUES (@MaSV, @MaLopHP, @DaKhoa);
+                          INSERT INTO diem (masv, malophp, dakhoa) VALUES (@MaSV, @MaLopHP, @DaKhoa);
                       END", conn))
                 {
                     cmd.Parameters.Add("@DaKhoa", SqlDbType.Bit).Value = !daKhoa;

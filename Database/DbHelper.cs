@@ -16,7 +16,7 @@ namespace Database
                 {
                     return connSetting.ConnectionString;
                 }
-                return @"Data Source=localhost;Initial Catalog=quanlydiem;Integrated Security=True;TrustServerCertificate=True";
+                return @"Data Source=localhost\SQLEXPRESS;Initial Catalog=quanlydiem;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
             }
         }
 

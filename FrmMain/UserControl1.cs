@@ -197,14 +197,14 @@ namespace QuanLyDiemSinhVien
         {
             using (SqlConnection conn = new SqlConnection(GetConnStr()))
             using (SqlDataAdapter da = new SqlDataAdapter(
-                "SELECT MaSV, (MaSV + ' - ' + TenSV) AS HienThi FROM SinhVien ORDER BY MaSV", conn))
+                "SELECT masv, (masv + ' - ' + tensv) AS HienThi FROM sinhvien ORDER BY masv", conn))
             {
                 DataTable dt = new DataTable();
                 da.Fill(dt);
 
                 cboMaSV.DataSource = dt;
                 cboMaSV.DisplayMember = "HienThi";
-                cboMaSV.ValueMember = "MaSV";
+                cboMaSV.ValueMember = "masv";
                 cboMaSV.SelectedIndex = -1;
             }
         }
@@ -213,17 +213,17 @@ namespace QuanLyDiemSinhVien
         {
             using (SqlConnection conn = new SqlConnection(GetConnStr()))
             using (SqlDataAdapter da = new SqlDataAdapter(
-                @"SELECT lhp.MaLopHP, (lhp.MaLopHP + ' - ' + mh.TenMon) AS HienThi, mh.TenMon, lhp.GiangVien
-FROM LopHocPhan lhp
-INNER JOIN MonHoc mh ON lhp.MaMon = mh.MaMon
-ORDER BY lhp.MaLopHP", conn))
+                @"SELECT lhp.malophp, (lhp.malophp + ' - ' + mh.tenmon) AS HienThi, mh.tenmon, lhp.giangvien
+FROM lophocphan lhp
+INNER JOIN monhoc mh ON lhp.mamon = mh.mamon
+ORDER BY lhp.malophp", conn))
             {
                 DataTable dt = new DataTable();
                 da.Fill(dt);
 
                 cboLopHP.DataSource = dt;
                 cboLopHP.DisplayMember = "HienThi";
-                cboLopHP.ValueMember = "MaLopHP";
+                cboLopHP.ValueMember = "malophp";
                 cboLopHP.SelectedIndex = -1;
             }
         }
@@ -270,7 +270,7 @@ ORDER BY lhp.MaLopHP", conn))
             {
                 using (SqlConnection conn = new SqlConnection(GetConnStr()))
                 using (SqlCommand cmd = new SqlCommand(
-                    "SELECT DiemCC, DiemGK, DiemCK, DiemTongKet, XepLoai, DaKhoa FROM Diem WHERE MaSV = @MaSV AND MaLopHP = @MaLopHP", conn))
+                    "SELECT diemcc, diemgk, diemck, diemtongket, xeploai, dakhoa FROM diem WHERE masv = @MaSV AND malophp = @MaLopHP", conn))
                 {
                     cmd.Parameters.AddWithValue("@MaSV", maSV);
                     cmd.Parameters.AddWithValue("@MaLopHP", maLopHP);
@@ -281,10 +281,10 @@ ORDER BY lhp.MaLopHP", conn))
                         dangNapDuLieu = true;
                         if (reader.Read())
                         {
-                            object valCC = reader["DiemCC"];
-                            object valGK = reader["DiemGK"];
-                            object valCK = reader["DiemCK"];
-                            bool daKhoa = reader["DaKhoa"] != DBNull.Value && Convert.ToBoolean(reader["DaKhoa"]);
+                            object valCC = reader["diemcc"];
+                            object valGK = reader["diemgk"];
+                            object valCK = reader["diemck"];
+                            bool daKhoa = reader["dakhoa"] != DBNull.Value && Convert.ToBoolean(reader["dakhoa"]);
 
                             txtChuyenCan.Text = valCC != DBNull.Value ? Convert.ToDecimal(valCC).ToString("0.00") : "";
                             txtGiuaKy.Text = valGK != DBNull.Value ? Convert.ToDecimal(valGK).ToString("0.00") : "";
@@ -347,9 +347,10 @@ ORDER BY lhp.MaLopHP", conn))
             decimal cc, gk, ck;
             if (DocDiem(out cc, out gk, out ck))
             {
-                decimal tong = Math.Round(cc * 0.1m + gk * 0.3m + ck * 0.6m, 2);
+                decimal tong = Math.Round(cc * 0.2m + gk * 0.3m + ck * 0.5m, 2);
                 txtTongKet.Text = tong.ToString("0.00");
-                if (tong >= 8.5m) txtXepLoai.Text = "Giỏi";
+                if (tong >= 8.5m) txtXepLoai.Text = "Xuất sắc";
+                else if (tong >= 8m) txtXepLoai.Text = "Giỏi";
                 else if (tong >= 7m) txtXepLoai.Text = "Khá";
                 else if (tong >= 5m) txtXepLoai.Text = "Trung bình";
                 else txtXepLoai.Text = "Yếu";
@@ -391,32 +392,32 @@ ORDER BY lhp.MaLopHP", conn))
                 using (SqlConnection conn = new SqlConnection(GetConnStr()))
                 using (SqlCommand cmd = new SqlCommand(@"
 IF EXISTS (
-    SELECT 1 FROM Diem
-    WHERE MaSV = @MaSV AND MaLopHP = @MaLopHP
+    SELECT 1 FROM diem  
+    WHERE masv = @MaSV AND malophp = @MaLopHP
 )
 BEGIN
     IF EXISTS (
-        SELECT 1 FROM Diem
-        WHERE MaSV = @MaSV AND MaLopHP = @MaLopHP
-          AND DaKhoa = 1
+        SELECT 1 FROM diem
+        WHERE masv = @MaSV AND malophp = @MaLopHP
+          AND dakhoa = 1
     )
         THROW 50001, N'Điểm đã khóa, không thể sửa.', 1;
 
-    UPDATE Diem
-    SET DiemCC = @CC,
-        DiemGK = @GK,
-        DiemCK = @CK,
-        DiemTongKet = @TongKet,
-        XepLoai = @XepLoai
-    WHERE MaSV = @MaSV AND MaLopHP = @MaLopHP;
+    UPDATE diem
+    SET diemcc = @diemcc,
+        diemgk = @diemgk,
+        diemck = @diemck,
+        diemtongket = @diemTongKet,
+        xeploai = @XepLoai
+    WHERE masv = @MaSV AND malophp = @MaLopHP;
 END
 ELSE
 BEGIN
-    INSERT INTO Diem
-        (MaSV, MaLopHP, DiemCC, DiemGK, DiemCK,
-         DiemTongKet, XepLoai, DaKhoa)
+    INSERT INTO diem
+        (masv, malophp, diemcc, diemgk, diemck,
+         diemtongket, xeploai, dakhoa)
     VALUES
-        (@MaSV, @MaLopHP, @diemcc, @diemgk, @diemck
+        (@MaSV, @MaLopHP, @diemcc, @diemgk, @diemck,
          @diemTongKet, @XepLoai, 0);
 END
 ", conn))

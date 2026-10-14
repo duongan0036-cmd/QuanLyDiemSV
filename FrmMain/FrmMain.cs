@@ -26,15 +26,14 @@ namespace UI
         private void FrmMain_Load(object sender, EventArgs e)
         {
             var user = PhienLamViec.NguoiDung;
-            lblXinChao.Text = "Xin chào, " + (user != null ? user.HoTen : "Admin");
-
+            btnXinChao.Text = "Xin chào, " + (user != null ? user.HoTen : "Admin");
             btnTongQuan.Click += Menu_Click;
             btnLopHocPhan.Click += Menu_Click;
             btnQuanLyDiem.Click += Menu_Click;
             btnBaoCao.Click += Menu_Click;
             btnQuanTri.Click += Menu_Click;
             btnDangXuat.Click += btnDangXuat_Click;
-
+          //  PositionHeaderRight();
             Navigate(btnTongQuan);   // trang mặc định
         }
 
@@ -76,6 +75,23 @@ namespace UI
                     break;
             }
             ShowPage(page, btn.Text);
+        }
+       /* private void pnlHeader_Resize(object sender, EventArgs e)
+        {
+            PositionHeaderRight();
+        }
+
+        private void PositionHeaderRight()
+        {
+            picAvatar.Location = new Point(pnlHeader.Width - picAvatar.Width - 24, 20);
+            btnXinChao.Location = new Point(picAvatar.Left - btnXinChao.Width - 12, 23);
+            btnXinChao.BringToFront();
+        }*/
+        private void btnXinChao_Click(object sender, EventArgs e)
+        {
+            var user = PhienLamViec.NguoiDung;
+            MessageBox.Show("Tài khoản: " + (user != null ? user.HoTen : "Admin"),
+                            "Thông tin tài khoản", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void ShowPage(UserControl page, string title)

@@ -206,16 +206,16 @@ namespace UI.UserControls
                 {
                     conn.Open();
 
-                    using (var cmd = new SqlCommand("SELECT COUNT(*) FROM SinhVien", conn))
+                    using (var cmd = new SqlCommand("SELECT COUNT(*) FROM sinhvien", conn))
                         lblCountSV.Text = Convert.ToString(cmd.ExecuteScalar() ?? 0);
 
-                    using (var cmd = new SqlCommand("SELECT COUNT(*) FROM LopHocPhan", conn))
+                    using (var cmd = new SqlCommand("SELECT COUNT(*) FROM lophocphan", conn))
                         lblCountLopHP.Text = Convert.ToString(cmd.ExecuteScalar() ?? 0);
 
-                    using (var cmd = new SqlCommand("SELECT COUNT(*) FROM MonHoc", conn))
+                    using (var cmd = new SqlCommand("SELECT COUNT(*) FROM monhoc", conn))
                         lblCountMonHoc.Text = Convert.ToString(cmd.ExecuteScalar() ?? 0);
 
-                    using (var cmd = new SqlCommand("SELECT COUNT(*) FROM Diem WHERE DiemTongKet IS NOT NULL", conn))
+                    using (var cmd = new SqlCommand("SELECT COUNT(*) FROM diem WHERE diemtongket IS NOT NULL", conn))
                         lblCountDiem.Text = Convert.ToString(cmd.ExecuteScalar() ?? 0);
 
                     string sql = @"

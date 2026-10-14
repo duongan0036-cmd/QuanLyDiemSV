@@ -19,7 +19,7 @@ namespace UI
         private CheckBox chkHienMatKhau;
         private Label lblThongBao;
         private Guna2Button btnDangNhap;
-        private Guna2Button btnThoat;
+        private Guna2Button btnQuenMatKhau;
 
         private static readonly Color MauChinh = Color.FromArgb(94, 22, 110);
         private static readonly Color MauNen = Color.FromArgb(250, 243, 253);
@@ -84,7 +84,7 @@ namespace UI
 
             txtTenDangNhap = new Guna2TextBox
             {
-                PlaceholderText = "Tên đăng nhập (vd: admin)",
+                PlaceholderText = "Tên đăng nhập",
                 Location = new Point(30, 140),
                 Size = new Size(325, 42),
                 BorderRadius = 8,
@@ -92,13 +92,13 @@ namespace UI
                 FillColor = Color.White,
                 ForeColor = Color.FromArgb(60, 20, 70),
                 Font = new Font("Segoe UI", 10f),
-                Text = "admin"
+                Text = ""
             };
 
             txtMatKhau = new Guna2TextBox
             {
-                PlaceholderText = "Mật khẩu (vd: 123456)",
-                Location = new Point(30, 195),
+                PlaceholderText = "Mật khẩu",
+                Location = new Point(30, 190),
                 Size = new Size(325, 42),
                 BorderRadius = 8,
                 BorderColor = Color.FromArgb(225, 205, 235),
@@ -106,13 +106,13 @@ namespace UI
                 ForeColor = Color.FromArgb(60, 20, 70),
                 Font = new Font("Segoe UI", 10f),
                 PasswordChar = '●',
-                Text = "123456"
+                Text = ""
             };
 
             chkHienMatKhau = new CheckBox
             {
                 Text = "Hiển thị mật khẩu",
-                Location = new Point(32, 245),
+                Location = new Point(32, 270),
                 AutoSize = true,
                 ForeColor = Color.FromArgb(100, 80, 110),
                 BackColor = Color.Transparent,
@@ -147,9 +147,9 @@ namespace UI
             };
             btnDangNhap.Click += BtnDangNhap_Click;
 
-            btnThoat = new Guna2Button
+            btnQuenMatKhau = new Guna2Button
             {
-                Text = "Thoát",
+                Text = "Quên mật khẩu",
                 Location = new Point(30, 346),
                 Size = new Size(325, 34),
                 BorderRadius = 8,
@@ -158,7 +158,7 @@ namespace UI
                 Font = new Font("Segoe UI", 9.5f),
                 Cursor = Cursors.Hand
             };
-            btnThoat.Click += (s, e) => Application.Exit();
+            btnQuenMatKhau.Click += (s, e) => MessageBox.Show("Vui lòng liên hệ với quản trị viên để lấy lại mật khẩu.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             txtMatKhau.KeyDown += (s, e) =>
             {
@@ -172,12 +172,13 @@ namespace UI
             pnlCard.Controls.Add(picIcon);
             pnlCard.Controls.Add(lblTieuDe);
             pnlCard.Controls.Add(lblPhu);
+            pnlCard.Controls.Add(chkHienMatKhau);
             pnlCard.Controls.Add(txtTenDangNhap);
             pnlCard.Controls.Add(txtMatKhau);
-            pnlCard.Controls.Add(chkHienMatKhau);
+           // pnlCard.Controls.Add(chkHienMatKhau);
             pnlCard.Controls.Add(lblThongBao);
             pnlCard.Controls.Add(btnDangNhap);
-            pnlCard.Controls.Add(btnThoat);
+            pnlCard.Controls.Add(btnQuenMatKhau);
 
             Controls.Add(pnlCard);
         }
