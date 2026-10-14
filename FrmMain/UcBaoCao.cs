@@ -35,22 +35,25 @@ namespace UI.UserControls
         private bool xemThongKe = true;
 
         // Một lớp học phần trong combobox
-        private class LopHP
+        
+    
+        public class LopHP
         {
-            public string Ma;
-            public string TenMon;
-            public string GiangVien;
+            public string Ma { get; set; } = "";
+            public string TenMon { get; set; } = "";
+            public string GiangVien { get; set; } = "";
 
             public override string ToString()
             {
                 return Ma + " - " + TenMon + " (" + GiangVien + ")";
             }
         }
+    
 
-        // =====================================================================
-        // 1. KHỞI TẠO GIAO DIỆN
-        // =====================================================================
-        public UcBaoCao()
+    // =====================================================================
+    // 1. KHỞI TẠO GIAO DIỆN
+    // =====================================================================
+    public UcBaoCao()
         {
             TaoGiaoDien();
             Load += UcBaoCao_Load;

@@ -126,6 +126,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ucLopHocPhan.Designer.cs">
+      <DependentUpon>UcLopHocPhan.cs</DependentUpon>
+    </Compile>
     <Compile Include="UcPlaceholder.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -164,6 +167,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UcBaoCao.resx">
       <DependentUpon>UcBaoCao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucLopHocPhan.resx">
+      <DependentUpon>UcLopHocPhan.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UcTrangChu.resx">
       <DependentUpon>UcTrangChu.cs</DependentUpon>
