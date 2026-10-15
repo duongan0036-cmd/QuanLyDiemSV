@@ -18,7 +18,6 @@ namespace UI.UserControls
 
         private void InitializeComponent()
         {
-            // Bảng màu dùng chung với các màn hình khác
             var mauNen = Color.FromArgb(250, 243, 253);
             var mauChinh = Color.FromArgb(94, 22, 110);
             var mauNhat = Color.FromArgb(243, 229, 250);

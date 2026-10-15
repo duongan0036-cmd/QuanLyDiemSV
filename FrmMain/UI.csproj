@@ -128,12 +128,6 @@
     <Compile Include="FrmKhoaDiem.Designer.cs">
       <DependentUpon>FrmKhoaDiem.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmThongTin.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FrmThongTin.Designer.cs">
-      <DependentUpon>FrmThongTin.cs</DependentUpon>
-    </Compile>
     <Compile Include="FrmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -171,6 +165,18 @@
     </Compile>
     <Compile Include="UcHeThong.cs">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FrmThongTin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmThongTinTaiKhoan.Designer.cs">
+      <DependentUpon>FrmThongTin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmSuaTK.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSuaTK.Designer.cs">
+      <DependentUpon>FrmSuaTK.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

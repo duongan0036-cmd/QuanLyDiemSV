@@ -34,7 +34,7 @@ namespace UI
             btnBaoCao.Click += Menu_Click;
             btnQuanTri.Click += Menu_Click;
             btnDangXuat.Click += btnDangXuat_Click;
-        
+
             Navigate(btnTongQuan);   // trang mặc định
         }
 
@@ -77,7 +77,7 @@ namespace UI
             }
             ShowPage(page, btn.Text);
         }
-        
+
         private void btnXinChao_Click(object sender, EventArgs e)
         {
             var user = PhienLamViec.NguoiDung;

@@ -14,16 +14,13 @@ namespace UI.UserControls
 
         public UcLopHocPhan()
         {
-            // Giao diện (thẻ trắng, nút, kiểu bảng, cột) đã được dựng sẵn trong UcLopHocPhan.Designer.cs
             InitializeComponent();
 
-            // Gắn sự kiện
             btntim.Click += btntim_click;
             btnlammoi.Click += btnlammoi_click;
             btntimsv.Click += btntimsv_click;
             dglhp.SelectionChanged += dglhp_chon;
 
-            // Nhấn Enter trong ô tìm kiếm cũng tìm luôn
             txttim.KeyDown += (s, e) =>
             {
                 if (e.KeyCode == Keys.Enter)
@@ -46,7 +43,6 @@ namespace UI.UserControls
                 tailhp();
         }
 
-        // ================== TRUY VẤN DỮ LIỆU ==================
 
         // Tải danh sách lớp học phần
         private void tailhp()
@@ -114,11 +110,9 @@ namespace UI.UserControls
                 dangTaiLop = false;
             }
 
-            // Chỉ tải sinh viên sau khi đã nạp xong bảng lớp
             taisv();
         }
 
-        // Tải sinh viên thuộc lớp học phần đang chọn
         private void taisv()
         {
             try
@@ -170,9 +164,6 @@ namespace UI.UserControls
             }
         }
 
-        // ================== SỰ KIỆN ==================
-
-        // Chọn một lớp học phần
         private void dglhp_chon(object sender, EventArgs e)
         {
             if (dangTaiLop)
@@ -201,7 +192,6 @@ namespace UI.UserControls
             tailhp();
         }
 
-        // Làm mới dữ liệu
         private void btnlammoi_click(object sender, EventArgs e)
         {
             txttim.Clear();
@@ -209,7 +199,6 @@ namespace UI.UserControls
             tailhp();
         }
 
-        // Tìm sinh viên trong lớp đang chọn
         private void btntimsv_click(object sender, EventArgs e)
         {
             taisv();

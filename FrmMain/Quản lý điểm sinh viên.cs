@@ -460,11 +460,11 @@ ORDER BY d.malophp, d.masv";
             t.Columns.Add("XepLoai", typeof(string));
             t.Columns.Add("TrangThai", typeof(string));
 
-            t.Rows.Add("SV001", "Nguyễn Văn An", "INT101-01", "Lập trình C#", 8.0, 7.5, 8.0, "Khá", "Chưa khóa");
+           /* t.Rows.Add("SV001", "Nguyễn Văn An", "INT101-01", "Lập trình C#", 8.0, 7.5, 8.0, "Khá", "Chưa khóa");
             t.Rows.Add("SV002", "Trần Thị Bình", "INT101-01", "Lập trình C#", 7.0, 8.0, 8.5, "Giỏi", "Chưa khóa");
             t.Rows.Add("SV001", "Nguyễn Văn An", "INT102-01", "Cơ sở dữ liệu", 9.0, 8.0, 7.5, "Khá", "Đã khóa");
             t.Rows.Add("SV004", "Phạm Thu Dung", "INT102-01", "Cơ sở dữ liệu", DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, "Chưa nhập");
-            t.Rows.Add("SV003", "Lê Minh Cường", "INT103-01", "Mạng máy tính", 6.0, 7.0, 6.5, "Trung bình", "Chưa khóa");
+            t.Rows.Add("SV003", "Lê Minh Cường", "INT103-01", "Mạng máy tính", 6.0, 7.0, 6.5, "Trung bình", "Chưa khóa");*/
             return t;
         }
 

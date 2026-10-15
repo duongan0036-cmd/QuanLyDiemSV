@@ -6,7 +6,6 @@ namespace Database
 {
     public static class DbHelper
     {
-        // Thêm <connectionStrings name="quanlydiem"> vào App.config của GUI
         public static string ConnStr
         {
             get

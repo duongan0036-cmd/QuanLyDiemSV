@@ -31,17 +31,6 @@ namespace UI.UserControls
             Padding = new Padding(24, 20, 24, 24);
             Font = new Font("Segoe UI", 9.5f);
 
-            // Header
-            /*r lblTitle = new Label
-            {
-                Text = "Tổng quan hệ thống",
-                Dock = DockStyle.Top,
-                Height = 44,
-                Font = new Font("Segoe UI", 22f, FontStyle.Bold),
-                ForeColor = MauChinh,
-                TextAlign = ContentAlignment.MiddleLeft
-            };*/
-
             var lblSubtitle = new Label
             {
                 Text = "Chào mừng bạn đến với hệ thống Quản lý điểm sinh viên",
@@ -52,7 +41,6 @@ namespace UI.UserControls
                 TextAlign = ContentAlignment.MiddleLeft
             };
 
-            // Container for 4 Stat Cards
             var pnlCards = new TableLayoutPanel
             {
                 Dock = DockStyle.Top,
@@ -152,11 +140,9 @@ namespace UI.UserControls
             cardGrid.Controls.Add(dgvRecent);
             cardGrid.Controls.Add(lblGridTitle);
 
-            // Add in reverse order for Dock
             Controls.Add(cardGrid);
             Controls.Add(pnlCards);
             Controls.Add(lblSubtitle);
-           //ontrols.Add(lblTitle);
 
             ResumeLayout(false);
         }

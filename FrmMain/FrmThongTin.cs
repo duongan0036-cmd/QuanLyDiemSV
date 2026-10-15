@@ -91,11 +91,8 @@ namespace quanlydiem
         // Bấm Sửa
         private void BtnSua_Click(object sender, EventArgs e)
         {
-            txtHoTen.ReadOnly = false;
-            txtEmail.ReadOnly = false;
-            txtSoDienThoai.ReadOnly = false;
-
-            txtHoTen.Focus();
+            FrmSuaTaiKhoan frm = new FrmSuaTaiKhoan(_tenDangNhap);
+            frm.ShowDialog();   // Chặn form hiện tại cho đến khi đóng form sửa
         }
 
         // Bấm Lưu
